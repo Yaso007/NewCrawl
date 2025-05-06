@@ -59,7 +59,7 @@ export default function App() {
     console.log(payload);
 
     try {
-      const res = await axios.post("http://localhost:8000/process", payload);
+      const res = await axios.post("http://localhost:4000/process", payload);
       setDownloadLink(res.data.download_link);
     } catch (err) {
       console.error(err);

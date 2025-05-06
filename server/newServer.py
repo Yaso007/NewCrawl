@@ -141,7 +141,7 @@ from fastapi.responses import FileResponse
 # Function to delete files/folders after a delay
 def delete(path):
     try:
-        time.sleep(30)  # wait for 5 minutes (300 seconds)
+        time.sleep(300)  # wait for 5 minutes (300 seconds)
 
         if os.path.isfile(path):
             os.remove(path)
@@ -223,7 +223,8 @@ async def process_images(request: ProcessRequest):
     threading.Thread(target=delete, args=(zip_filename,), daemon=True).start()
 
     # Generate the download link
-    download_link = f"http://localhost:8000/download/{os.path.basename(zip_filename)}"
+    download_link = f"http://localhost:4000/download/{os.path.basename(zip_filename)}"
+    print(download_link)
     return {"message": "Processing done!", "download_link": download_link}
 
 @app.get("/download/{filename}")
@@ -243,4 +244,4 @@ async def say():
 if __name__ == "__main__":
     import multiprocessing
     multiprocessing.freeze_support()
-    uvicorn.run("newServer:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("newServer:app", host="127.0.0.1", port=4000, reload=True)

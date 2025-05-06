@@ -81,7 +81,7 @@ def scrape_wikimedia(query, total_images, dest_folder, start_num):
 
     image_urls = set()
     scroll_pause = 3
-    max_scrolls = 50
+    max_scrolls = 100
 
     print("\n🔎 Scraping Wikimedia Images...")
     for _ in range(max_scrolls):
