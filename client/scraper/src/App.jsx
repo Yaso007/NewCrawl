@@ -69,18 +69,19 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: "sans-serif" }}>
-      <h2>🖼️ Image Scraper and Dataset Creator</h2>
+      <h1>Image Scraper and Dataset Creator</h1>
 
       {/* Query Input */}
+      <div className="topQuery">
       <div>
         <label>Query: </label>
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter the name of the image to be searched"/>
+        <input id="query" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter the name of the image to be searched"/>
       </div>
 
       {/* Num Images */}
-      <div style={{ marginTop: 10 }}>
+      <div  >
         <label>Number of Images: </label>
-        <input
+        <input id="numberOfImages"
           placeholder="Enter number of images to be downloaded 1 - 1000"
           type="number"
           value={numImages}
@@ -88,10 +89,39 @@ export default function App() {
         />
       </div>
 
+      </div>
+    {/* Show selected steps in order */}
+    <h3 style={{ marginTop: 20 }}>Selected Steps Order left to right:</h3>
+      <div style={{ display: "flex", gap: 10, marginBottom:10 }}>
+        {selectedSteps.map((stepNum, idx) => {
+          const stepName = stepList.find((s) => s.num === stepNum).name;
+          return (
+           <>
+            <div
+              key={idx}
+              style={{
+                padding: 10,
+                background: "#0000",
+                borderRadius: 5,
+                minWidth: 80,
+                textAlign: "center",
+                border:"1px solid white"
+              }}
+            >
+              {stepName} 
+            </div>
+           
+           </>
+          );
+        })}
+      </div>
+
       {/* Step Selection */}
       <h3 style={{ marginTop: 20 }}>Select Steps:</h3>
+      <div className="gridCard">
+
       {stepList.map((step) => (
-        <div key={step.num}>
+        <div key={step.num} className="stepsCard">
           <label>
             <input
               type="checkbox"
@@ -103,10 +133,10 @@ export default function App() {
 
           {/* If selected, show param input */}
           {selectedSteps.includes(step.num) && (
-            <div style={{ marginLeft: 20, marginTop: 5 }}>
+            <div style={{ margin:"10px"}}>
               {step.num === "1" ? (
                 <>
-                  Width:{" "}
+                 
                   <input
                     type="number"
                     placeholder="width"
@@ -116,7 +146,7 @@ export default function App() {
                       handleParamChange("resize", [width, height]);
                     }}
                   />
-                  Height:{" "}
+                
                   <input
                     type="number"
                     placeholder="height"
@@ -204,30 +234,9 @@ export default function App() {
         </div>
       ))}
 
-      {/* Show selected steps in order */}
-      <h3 style={{ marginTop: 20 }}>Selected Steps Order left to right:</h3>
-      <div style={{ display: "flex", gap: 10 }}>
-        {selectedSteps.map((stepNum, idx) => {
-          const stepName = stepList.find((s) => s.num === stepNum).name;
-          return (
-           <>
-            <div
-              key={idx}
-              style={{
-                padding: 10,
-                background: "#eee",
-                borderRadius: 5,
-                minWidth: 80,
-                textAlign: "center",
-              }}
-            >
-              {stepName} 
-            </div>
-           
-           </>
-          );
-        })}
       </div>
+    
+      
 
       {/* Submit Button */}
       <button onClick={handleSubmit} style={{ marginTop: 20 }}>
