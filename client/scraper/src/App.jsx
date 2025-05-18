@@ -4,10 +4,11 @@ import "./app.css"
 
 export default function App() {
   const [query, setQuery] = useState("");
-  const [numImages, setNumImages] = useState(5);
+  const [numImages, setNumImages] = useState(null);
   const [selectedSteps, setSelectedSteps] = useState([]);
   const [params, setParams] = useState({});
   const [downloadLink, setDownloadLink] = useState("");
+  const [process,setProcess] = useState(false);
 
   const stepList = [
     { num: "1", name: "Resize" },
@@ -34,6 +35,7 @@ export default function App() {
   };
 
   const handleParamChange = (stepName, value) => {
+    console.log("Values got = ",stepName," ",value)
     setParams((prev) => ({
       ...prev,
       [stepName.toLowerCase()]: value,
@@ -57,10 +59,12 @@ export default function App() {
     };
 
     console.log(payload);
+    setProcess(true)
 
     try {
       const res = await axios.post("http://localhost:4000/process", payload);
       setDownloadLink(res.data.download_link);
+      setProcess(false)
     } catch (err) {
       console.error(err);
       alert("Something went wrong!");
@@ -236,18 +240,21 @@ export default function App() {
 
       </div>
     
-      
-
-      {/* Submit Button */}
-      <button onClick={handleSubmit} style={{ marginTop: 20 }}>
+      {
+        process? <button  style={{ marginTop: 20 }}>
+        Processing Please wait.....
+      </button>:<button onClick={handleSubmit} style={{ marginTop: 20 }}>
         Process Images
       </button>
+      }
+      {/* Submit Button */}
+     
 
       {/* Download Link */}
       {downloadLink && (
         <div style={{ marginTop: 20 }}>
           <a href={downloadLink} target="_blank" rel="noopener noreferrer">
-            <button>Download Processed Zip</button>
+            <button style={{"color":"white"}}>Download Processed Zip</button>
           </a>
         </div>
       )}
