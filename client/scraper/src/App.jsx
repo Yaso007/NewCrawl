@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 import "./app.css"
 
 export default function App() {
@@ -20,7 +21,16 @@ export default function App() {
     { num: "7", name: "Saturation" },
     { num: "8", name: "Flip" },
   ];
-
+  const desc = {
+    "1":"Resize the image,  ensures consistent input dimensions for neural networks or reduces file size for faster loading.",
+    "2":"Grayscale is useful for tasks focused on structure, shape, or intensity. HSV is helpful in object detection, color filtering, or segmentation.",
+    "3": "Apply Gaussian Blur.Ideal for removing high-frequency noise or preparing images for edge detection, object recognition, or deep learning tasks.",
+    "4":"Rotate the image by a specified angle to augment data or correct orientation. ",
+    "5":"Modify the brightness of the image to simulate varying lighting conditions. This enhances the diversity of your dataset.",
+    "6": "Enhance or reduce differences between light and dark areas to improve feature detection in varied lighting.",
+    "7": "Change how vivid or dull the colors look. Helps the model learn from both colorful and faded images it might see in real life",
+    "8":"Flip the image horizontally or vertically to add directional variety. Helps the model learn from different angles and improve accuracy."
+  }
   const handleCheckbox = (e, step) => {
     const checked = e.target.checked;
     if (checked) {
@@ -72,26 +82,30 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: "sans-serif" }}>
-      <h1>Image Scraper and Dataset Creator</h1>
-
+    
+    <div style={{  fontFamily: "sans-serif",marginTop:"0px"}}>
+     
+    <div className="navbar">
+        <p> Image Scraper and Dataset Creator</p>
+      </div>
       {/* Query Input */}
+   
       <div className="topQuery">
-      <div>
-        <label>Query: </label>
-        <input id="query" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter the name of the image to be searched"/>
-      </div>
+            <div>
+               <label htmlFor="" id="searchKey">What are you looking for</label>
+              <input id="query" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter the name of the image to be searched"/>
+            </div>
 
-      {/* Num Images */}
-      <div  >
-        <label>Number of Images: </label>
-        <input id="numberOfImages"
-          placeholder="Enter number of images to be downloaded 1 - 1000"
-          type="number"
-          value={numImages}
-          onChange={(e) => setNumImages(e.target.value)}
-        />
-      </div>
+            {/* Num Images */}
+            <div  >
+              <label htmlFor=""n id="numImg">Enter the number of images</label>
+              <input id="numberOfImages"
+                placeholder="Enter number of images to be downloaded 1 - 1000"
+                type="number"
+                value={numImages}
+                onChange={(e) => setNumImages(e.target.value)}
+              />
+            </div>
 
       </div>
     {/* Show selected steps in order */}
@@ -104,12 +118,13 @@ export default function App() {
             <div
               key={idx}
               style={{
-                padding: 10,
+                padding: "10px",
+                marginLeft:"20px",
                 background: "#0000",
                 borderRadius: 5,
                 minWidth: 80,
                 textAlign: "center",
-                border:"1px solid white"
+                border:"1px solid black"
               }}
             >
               {stepName} 
@@ -125,8 +140,8 @@ export default function App() {
       <div className="gridCard">
 
       {stepList.map((step) => (
-        <div key={step.num} className="stepsCard">
-          <label>
+        <div key={step.num} className="stepsCard" style={{"display":"flex","flexDirection":"column"}}>
+          <label className="optionsLabel">
             <input
               type="checkbox"
               checked={selectedSteps.includes(step.num)}
@@ -134,6 +149,10 @@ export default function App() {
             />
             {step.name}
           </label>
+             {!selectedSteps.includes(step.num) && (  <p className="desc">
+            {desc[step.num]}
+          </p>)}
+        
 
           {/* If selected, show param input */}
           {selectedSteps.includes(step.num) && (
@@ -181,7 +200,9 @@ export default function App() {
               
               ):step.num ==="5"?(
                 <>
-                  <label>Darker</label><input
+                   <div style={{"display":"flex"}}>
+                   
+                      <label>Darker</label><input
                 type="range"
                 min="0.5"
                 max="2.0"
@@ -190,6 +211,8 @@ export default function App() {
                   handleParamChange(step.name, parseFloat(e.target.value))}
               
               /><label>Lighter</label>
+                  </div>
+                
                 </>
               
               
@@ -201,7 +224,8 @@ export default function App() {
                 }
                 />):step.num ==="6"?(
                   <>
-                  <label>Low</label><input
+                     <div style={{"display":"flex","gap":"15"}}>
+                    <label>Low</label><input
                 type="range"
                 min="0.5"
                 max="2.0"
@@ -210,18 +234,36 @@ export default function App() {
                   handleParamChange(step.name, parseFloat(e.target.value))}
   
               /><label>High</label>
+
+                  </div>
+                  
               </>
+              
                 ):step.num ==="7"?(
                   <>
-                  <label>Low</label><input
-                type="range"
-                min="0.5"
-                max="2.0"
-                step="0.1"
-                onChange={(e) =>
-                  handleParamChange(step.name, parseFloat(e.target.value))}
-  
-              /><label>High</label>
+                
+
+                  <div style={{"display":"flex"}}>
+                    <div>
+                          <label>Low</label>
+                    </div>
+                    <div>
+                      <input
+                                type="range"
+                                min="0.5"
+                                max="2.0"
+                                step="0.1"
+                                onChange={(e) =>
+                                  handleParamChange(step.name, parseFloat(e.target.value))}
+                  
+                        />
+                    </div>
+                   
+                      <label>High</label>
+
+
+                  </div>
+              
               </>
                 ):(
                   <select onChange={(e) =>
