@@ -72,7 +72,7 @@ export default function App() {
     setProcess(true)
 
     try {
-      const res = await axios.post("https://data-scrape-and-preprocess.onrender.com/process", payload);
+      const res = await axios.post("https://data-scrape-and-preprocess.onrender.com:1000/process", payload);
       setDownloadLink(res.data.download_link);
       setProcess(false)
     } catch (err) {
