@@ -119,8 +119,11 @@ def scrape_wikimedia(query, total_images, dest_folder, start_num):
 
     download_count = min(total_images, len(image_urls))
     print(f"\n📥 Downloading {download_count} Wikimedia images...\n")
+    print("Image URLs to download:", image_urls)
 
     for i, url in enumerate(tqdm(list(image_urls)[:download_count], desc="Downloading Wikimedia")):
+        print("Downloading URL:", url)
+        print("THE RESPONSE IS : ",response.content)
         download_image(url, dest_folder, start_num + i)
 
     return download_count

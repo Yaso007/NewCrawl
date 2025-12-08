@@ -155,17 +155,6 @@ def delete(path):
     except Exception as e:
         print(f"Error deleting {path}: {e}")
 
-app = FastAPI()
-
-
-# Allow CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Or specify frontend URL e.g., ["http://localhost:3000"]
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods: GET, POST, OPTIONS, etc.
-    allow_headers=["*"],  # Allow all headers
-)
 
 TEMP_FOLDER = "./temp_files"
 

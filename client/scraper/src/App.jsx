@@ -300,6 +300,17 @@ export default function App() {
           </a>
         </div>
       )}
+      <footer style={{
+  marginTop: "40px",
+  textAlign: "center",
+  fontSize: "14px",
+  opacity: 0.7,
+  padding: "10px"
+}}>
+  Designed and Built by – <strong>Yashop Mukhia</strong> and <strong>Pritam Kumar Bhagat</strong>
+</footer>
     </div>
+    
   );
+
 }

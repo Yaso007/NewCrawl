@@ -43,6 +43,7 @@ for _ in range(max_scrolls):
             src = thumb.get_attribute("src") or img.get_attribute("data-src")
             if src and src.startswith("http") and "upload.wikimedia.org" in src:
                 image_urls.add(src)
+                print(src)
         except:
             continue
 
@@ -56,10 +57,12 @@ driver.quit()
 # ========== DOWNLOAD ==========
 download_count = min(num_images, len(image_urls))
 print(f"\n📥 Downloading {download_count} images...\n")
-
+print("Image URLs to download:", image_urls)
 for i, url in enumerate(tqdm(list(image_urls)[:download_count], desc="Downloading")):
     try:
+        print("Downloading URL:", url)
         response = requests.get(url, timeout=10)
+        print("THE RESPONSE IS : ",response.content)
         with open(os.path.join(output_dir, f"{query.replace(' ', '_')}_{i+1}.jpg"), "wb") as f:
             f.write(response.content)
     except Exception as e:

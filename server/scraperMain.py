@@ -182,14 +182,21 @@ def scrape_yahoo(query, total_images, dest_folder, start_num):
 
 # ===== Download Helper =====
 def download_image(img_url, dest_folder, img_num):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                      "AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/142.0.0.0 Safari/537.36"
+    }
+
     try:
-        response = requests.get(img_url, stream=True, timeout=10)
+        response = requests.get(img_url, headers=headers, stream=True, timeout=10)
         if response.status_code == 200:
             file_ext = os.path.splitext(img_url)[1].split('?')[0]
             if not file_ext or len(file_ext) > 5:
                 file_ext = ".jpg"
             filename = f"{img_num}.jpg"
             file_path = os.path.join(dest_folder, filename)
+
             with open(file_path, 'wb') as f:
                 for chunk in response.iter_content(1024):
                     f.write(chunk)
