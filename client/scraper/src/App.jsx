@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import "./app.css"
+import "./App.css"
 
 export default function App() {
   const [query, setQuery] = useState("");
