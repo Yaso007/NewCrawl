@@ -188,6 +188,10 @@ step_map = {
     "8": ("flip", flip_image),
 }
 
+@app.get("/")
+def root():
+    return {"message": "Scraper is running!"}
+    
 @app.post("/process")
 async def process_images(request: ProcessRequest):
     query = request.query
