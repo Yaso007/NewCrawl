@@ -118,12 +118,17 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # Allow CORS
+origins = [
+    "https://pixpipeline.vercel.app",
+    "http://localhost:5173",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or specify frontend URL e.g., ["http://localhost:3000"]
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods: GET, POST, OPTIONS, etc.
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 from fastapi import FastAPI, HTTPException
